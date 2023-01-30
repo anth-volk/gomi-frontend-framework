@@ -1,7 +1,7 @@
 // Create DOM element object by taking HTML element name,
 // props, and an array of children and returning as
 // formatted object
-function createElem(type, propArgs, ...childrenArgs) {
+export function createElem(type, propArgs, ...childrenArgs) {
 	// type type string, props type obj optional
 	let children = null;
 	let props = null;
@@ -26,7 +26,7 @@ function createElem(type, propArgs, ...childrenArgs) {
 }
 
 // Recursively create VDOM from given element and container
-function render(element, container) {
+export function render(element, container) {
 	// If no container provided, create a default container on document.body
 	if (!container) {
 		const root = document.createElement('div');
@@ -60,10 +60,14 @@ function render(element, container) {
 }
 
 // TESTING
-const elem3 = createElem('li', null, 'Test value');
-const elem2 = createElem('ul', null, elem3);
-const elem1 = createElem('div', null, elem2);
+/** @jsx createElem */
+const element = (
+	<div>
+		<p1>Testing</p1>
+		<ul>
+			<li>Testing 2</li>
+		</ul>
+	</div>
+);
 
-console.log(document.getElementById('root'));
-
-render(elem1);
+render(element);

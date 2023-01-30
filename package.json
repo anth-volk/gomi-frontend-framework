@@ -2,6 +2,7 @@
   "name": "gomi-frontend-framework",
   "version": "0.0.0-dev-1",
   "description": "React-like frontend framework to enable quick scaffolding of Material UI-based mobile web apps",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
