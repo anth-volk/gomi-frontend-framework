@@ -2,29 +2,41 @@
   "name": "gomi-frontend-framework",
   "version": "0.0.0-dev-1",
   "description": "React-like frontend framework to enable quick scaffolding of Material UI-based mobile web apps",
+  "main": "dist/bundle.js",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint **/**.js"
+    "lint": "eslint **/**.js",
+    "build": "webpack"
   },
   "author": "Anthony Volk",
   "license": "MIT",
   "babel": {
+    "plugins": [
+      "@babel/syntax-dynamic-import"
+    ],
     "presets": [
-      "@babel/preset-env"
+      "@babel/preset-env",
+      "@babel/preset-react"
     ]
   },
   "browserslist": {
-	"targets": "> 0.25%, not dead"
+    "targets": ">1%"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
     "@babel/eslint-parser": "^7.19.1",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "@babel/plugin-transform-react-jsx": "^7.20.13",
     "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.2",
     "eslint": "^8.33.0",
-    "eslint-config-airbnb": "^19.0.4"
+    "eslint-config-airbnb": "^19.0.4",
+    "prettier": "^2.8.3",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }

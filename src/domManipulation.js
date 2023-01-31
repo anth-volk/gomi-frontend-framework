@@ -2,6 +2,13 @@
 // props, and an array of children and returning as
 // formatted object
 export function createElem(type, propArgs, ...childrenArgs) {
+
+	// TESTING
+	console.log(`Creating element: ${type}`);
+	console.log(propArgs);
+	console.log(...childrenArgs);
+
+
 	// type type string, props type obj optional
 	let children = null;
 	let props = null;
@@ -17,6 +24,10 @@ export function createElem(type, propArgs, ...childrenArgs) {
 	if (childrenArgs.length > 0) {
 		children = childrenArgs;
 	}
+
+	// TESTING
+	console.log(props);
+	console.log(children);
 
 	return {
 		type,
@@ -47,27 +58,20 @@ export function render(element, container) {
 	// First, create element
 	const vdomNode = document.createElement(element.type);
 
+	// Map over props and assign them to element
+	if (element.props) {
+		Object.keys(element.props)
+			.forEach( key => {
+				vdomNode[key] = element.props[key];
+			});
+	}
+
 	// Recursively call render for each of the element's children;
 	// if child is not object, createTextNode
 	element.children.forEach((child) => (typeof child !== 'object'
 		? vdomNode.append(document.createTextNode(child))
 		: render(child, vdomNode)));
 
-	console.log(element, container);
-
 	// Append element to container
 	container.appendChild(vdomNode);
 }
-
-// TESTING
-/** @jsx createElem */
-const element = (
-	<div>
-		<p1>Testing</p1>
-		<ul>
-			<li>Testing 2</li>
-		</ul>
-	</div>
-);
-
-render(element);
