@@ -4,12 +4,12 @@ import { render, createElem } from './domManipulation.js';
 const testArr = [
 	'value1',
 	'value2',
-	'value3'
+	'value3',
 ];
 
-const testJSX = testArr.map( item => 
+const testJSX = testArr.map((item) =>
 	<li>{item}</li>
-	);
+);
 
 const content = (
 	<div id="testing">

@@ -8,33 +8,39 @@ const customComponents = {
 	},
 };
 
+export function convertCustomType(typeArg) {
+	return customComponents[typeArg].type;
+}
+
 // Create DOM element object by taking HTML element name,
 // props, and an array of children and returning as
 // formatted object
-export function createElem(typeArg, propArg, ...childrenArgs) {
+export function createElem(typeArg, propArgs, ...childrenArgs) {
 
 	// TESTING
-	console.log(`Creating element: ${type}`);
-	console.log(propArg);
+	console.log(`Creating element: ${typeArg}`);
+	console.log(propArgs);
 	console.log(...childrenArgs);
 
-	let children = null;
-	let props = null;
 	let type = null;
+	let props = null;
+	let children = null;
 
 	// If type is custom, convert to standard DOM node using customComponents obj array
 	if (Object.keys(customComponents).includes(typeArg)) {
-		type = customComponents[typeArg].type;
+		type = convertCustomType(typeArg);
 	} else {
 		type = typeArg;
 	}
 
-	// If propArg are an object, assign them to props
-	if (typeof propArg === 'object') {
+	// If propArgs are an object, assign them to props
+	if (typeof propArgs === 'object') {
 		props = {
-			...propArg,
+			...propArgs,
 		};
 	}
+
+	// TODO: Determine how to handle custom props
 
 	// If children args are present, set children to them
 	if (childrenArgs.length > 0) {
@@ -64,11 +70,11 @@ export function render(element, container) {
 	// Check if container set to document.body, and if so, raise console error
 	if (container === document.body) {
 		console.error('It is recommended to '
-        + 'create a separate container within document.body to '
-        + 'hold the application; alternatively, call '
-        + 'render without a second parameter, and the function '
-        + 'will create a new container at the end of document.body '
-       + 'to hold the application');
+			+ 'create a separate container within document.body to '
+			+ 'hold the application; alternatively, call '
+			+ 'render without a second parameter, and the function '
+			+ 'will create a new container at the end of document.body '
+			+ 'to hold the application');
 	}
 
 	// First, create element
@@ -77,7 +83,7 @@ export function render(element, container) {
 	// Map over props and assign them to element
 	if (element.props) {
 		Object.keys(element.props)
-			.forEach( key => {
+			.forEach(key => {
 				vdomNode[key] = element.props[key];
 			});
 	}
