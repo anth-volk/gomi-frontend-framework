@@ -8,13 +8,41 @@ const customComponents = {
 	},
 };
 
+/**
+ * Returns VDOM node type that corresponds with custom declaration in customComponents obj
+ * @param {string} typeArg 
+ * @returns {string} 
+ */
 export function convertCustomType(typeArg) {
 	return customComponents[typeArg].type;
 }
 
-// Create DOM element object by taking HTML element name,
-// props, and an array of children and returning as
-// formatted object
+/**
+ * Iterates through VDOM props and recursively assigns them to node
+ * @param {HTMLElement} vdomNode
+ * @param {object} elemProps
+ */
+export function assignProps(vdomNode, elemProps) {
+	// Recursively assign props to VDOM nodes
+	Object.keys(elemProps)
+		.forEach((key) => {
+			if (typeof elemProps[key] !== 'object') {
+				vdomNode[key] = elemProps[key];
+			} else {
+				assignProps(vdomNode[key], elemProps[key]);
+			}
+		});
+}
+
+/**
+ * Creates HTML element by taking element name,
+ * props, and array of children from JSX transpiler (in this case, Babel)
+ * and returns formatted object
+ * @param {string} typeArg 
+ * @param {object} propArgs 
+ * @param  {...any} childrenArgs 
+ * @returns {object}
+ */
 export function createElem(typeArg, propArgs, ...childrenArgs) {
 
 	// TESTING
@@ -58,7 +86,11 @@ export function createElem(typeArg, propArgs, ...childrenArgs) {
 	};
 }
 
-// Recursively create VDOM from given element and container
+/**
+ * Recursively renders VDOM tree from elements and their children
+ * @param {HTMLElement} element
+ * @param {HTMLElement} container
+ */
 export function render(element, container) {
 	// If no container provided, create a default container on document.body
 	if (!container) {
@@ -82,11 +114,22 @@ export function render(element, container) {
 
 	// Map over props and assign them to element
 	if (element.props) {
-		Object.keys(element.props)
-			.forEach(key => {
-				vdomNode[key] = element.props[key];
-			});
+		assignProps(vdomNode, element.props);
 	}
+
+	// Old - TESTING
+	/*
+		// For each property, assign recursively if value is object
+
+		Object.keys(element.props)
+		.forEach(key => {
+			// TESTING
+			console.log(`Key: ${key}`);
+			console.log(`Value: ${element.props[key]}`);
+			console.log(element.props[key]);
+			vdomNode[key] = element.props[key];
+		});
+	*/
 
 	// Recursively call render for each of the element's children;
 	// if child is not object, createTextNode

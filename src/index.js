@@ -7,6 +7,8 @@ const testArr = [
 	'value3',
 ];
 
+// TESTING
+/*
 const testJSX = testArr.map((item) =>
 	<li>{item}</li>
 );
@@ -22,7 +24,21 @@ const content = (
 		</ul>
 		<grid>Grid value</grid>
 		<flex>Flex value</flex>
+		<div style={{display: 'grid', gridTemplateRows: 2}}>Test grid</div>
 	</div>
 );
+*/
 
-render(content);
+const content = (
+	<div id="container">
+		<div id="testGridElem" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', color: 'red'}}>
+			<div id="col1" style={{width: '100%'}}>col1</div>
+			<div id="col2" style={{width: '100%'}}>col2</div>
+		</div>
+	</div>
+)
+
+render(content, document.getElementById('root'));
+// TESTING
+console.log(document.getElementById('testGridElem'));
+console.log(document.getElementById('sampleHTMLElem'));
