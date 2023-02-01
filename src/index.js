@@ -2,9 +2,9 @@
 import { render, createElem } from './domManipulation.js';
 
 const testArr = [
-	"value1",
-	"value2",
-	"value3"
+	'value1',
+	'value2',
+	'value3'
 ];
 
 const testJSX = testArr.map( item => 
@@ -20,7 +20,8 @@ const content = (
 			<li>List item 2</li>
 			<li>List item 3</li>
 		</ul>
-		<ul>{testJSX}</ul>
+		<grid>Grid value</grid>
+		<flex>Flex value</flex>
 	</div>
 );
 

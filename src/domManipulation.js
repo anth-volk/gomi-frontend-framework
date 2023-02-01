@@ -1,22 +1,38 @@
+// Define custom JSX-like components to enable easier scaffolding
+const customComponents = {
+	flex: {
+		type: 'div',
+	},
+	grid: {
+		type: 'div',
+	},
+};
+
 // Create DOM element object by taking HTML element name,
 // props, and an array of children and returning as
 // formatted object
-export function createElem(type, propArgs, ...childrenArgs) {
+export function createElem(typeArg, propArg, ...childrenArgs) {
 
 	// TESTING
 	console.log(`Creating element: ${type}`);
-	console.log(propArgs);
+	console.log(propArg);
 	console.log(...childrenArgs);
 
-
-	// type type string, props type obj optional
 	let children = null;
 	let props = null;
+	let type = null;
 
-	// If propArgs are an object, assign them to props
-	if (typeof propArgs === 'object') {
+	// If type is custom, convert to standard DOM node using customComponents obj array
+	if (Object.keys(customComponents).includes(typeArg)) {
+		type = customComponents[typeArg].type;
+	} else {
+		type = typeArg;
+	}
+
+	// If propArg are an object, assign them to props
+	if (typeof propArg === 'object') {
 		props = {
-			...propArgs,
+			...propArg,
 		};
 	}
 
