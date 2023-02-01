@@ -1,20 +1,21 @@
-// Define custom JSX-like components to enable easier scaffolding
-const customComponents = {
-	flex: {
-		type: 'div',
-	},
-	grid: {
-		type: 'div',
-	},
-};
+import { customComponents } from './customComponents.js';
+// TODO: add customProps, as well
 
 /**
  * Returns VDOM node type that corresponds with custom declaration in customComponents obj
- * @param {string} typeArg 
- * @returns {string} 
+ * @param {string} typeArg
+ * @returns {string}
  */
 export function convertCustomType(typeArg) {
 	return customComponents[typeArg].type;
+}
+
+/**
+ * Recursively flattens arrays using Array.flatten(), if input is array
+ * @param {*} input
+ */
+export function flattenArrays(input) {
+	// TODO: Write this function
 }
 
 /**
@@ -38,13 +39,12 @@ export function assignProps(vdomNode, elemProps) {
  * Creates HTML element by taking element name,
  * props, and array of children from JSX transpiler (in this case, Babel)
  * and returns formatted object
- * @param {string} typeArg 
- * @param {object} propArgs 
- * @param  {...any} childrenArgs 
+ * @param {string} typeArg
+ * @param {object} propArgs
+ * @param  {...any} childrenArgs
  * @returns {object}
  */
 export function createElem(typeArg, propArgs, ...childrenArgs) {
-
 	// TESTING
 	console.log(`Creating element: ${typeArg}`);
 	console.log(propArgs);
@@ -70,9 +70,10 @@ export function createElem(typeArg, propArgs, ...childrenArgs) {
 
 	// TODO: Determine how to handle custom props
 
-	// If children args are present, set children to them
+	// If children args are present...
 	if (childrenArgs.length > 0) {
-		children = childrenArgs;
+		// Flatten any arrays created by JSX interpolation, then set children to output
+		children = flattenArrays(childrenArgs);
 	}
 
 	// TESTING
@@ -116,20 +117,6 @@ export function render(element, container) {
 	if (element.props) {
 		assignProps(vdomNode, element.props);
 	}
-
-	// Old - TESTING
-	/*
-		// For each property, assign recursively if value is object
-
-		Object.keys(element.props)
-		.forEach(key => {
-			// TESTING
-			console.log(`Key: ${key}`);
-			console.log(`Value: ${element.props[key]}`);
-			console.log(element.props[key]);
-			vdomNode[key] = element.props[key];
-		});
-	*/
 
 	// Recursively call render for each of the element's children;
 	// if child is not object, createTextNode
