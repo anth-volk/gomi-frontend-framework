@@ -1,4 +1,5 @@
 import { customComponents } from './customComponents.js';
+import { flattenArrays } from './utils/utils.js';
 // TODO: add customProps, as well
 
 /**
@@ -8,14 +9,6 @@ import { customComponents } from './customComponents.js';
  */
 export function convertCustomType(typeArg) {
 	return customComponents[typeArg].type;
-}
-
-/**
- * Recursively flattens arrays using Array.flatten(), if input is array
- * @param {*} input
- */
-export function flattenArrays(input) {
-	// TODO: Write this function
 }
 
 /**
@@ -37,8 +30,8 @@ export function assignProps(vdomNode, elemProps) {
 
 /**
  * Creates HTML element by taking element name,
- * props, and array of children from JSX transpiler (in this case, Babel)
- * and returns formatted object
+ * props, and array of children from JSX transpiler
+ * and returning formatted object
  * @param {string} typeArg
  * @param {object} propArgs
  * @param  {...any} childrenArgs
