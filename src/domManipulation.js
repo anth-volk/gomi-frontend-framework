@@ -1,46 +1,6 @@
-import { customComponentsFixedProps } from './customComponents.js';
+import { customComponentsFixedProps  } from './customComponents/data.js';
+import { convertCustomProps, convertCustomType } from './customComponents/handlers.js';
 import { flattenArrays } from './utils/utils.js';
-// TODO: add customProps, as well
-
-/**
- * Returns VDOM node type that corresponds with custom declaration in customComponentsFixedProps obj
- * @param {string} typeArg
- * @returns {string}
- */
-export function convertCustomType(typeArg) {
-	return customComponentsFixedProps[typeArg].type;
-}
-
-/**
- * Returns props object with standard HTML props when passed object that contains custom props
- * @param {string} typeArg
- * @param {Object} propArgs
- * @returns {Object}
- */
-export function convertCustomProps(typeArg, propArgs) {
-	let props = {};
-
-	// First, assign props listed in customComponentsFixedProps to 
-	// props obj, as these are fixed for all custom components of that type
-	props = {
-		...customComponentsFixedProps[typeArg].props
-	};
-
-	// TESTING
-	console.log(props);
-
-	// Map over array of prop keys
-	// TESTING - TODO: Add variable props afterwards
-	/*
-	Object.keys(propArgs)
-		.forEach((key) => {
-			// If key is in customComponentsFixedProps, then 
-		})
-	*/
-
-	return props;
-
-}
 
 /**
  * Iterates through VDOM props and recursively assigns them to node
@@ -69,45 +29,33 @@ export function assignProps(vdomNode, elemProps) {
  * @returns {object}
  */
 export function createElem(typeArg, propArgs, ...childrenArgs) {
-	// TESTING
-	console.log(`Creating element: ${typeArg}`);
-	console.log(propArgs);
-	console.log(...childrenArgs);
 
 	let type = null;
 	let props = {};
 	let children = null;
 
-	// If type is custom, preprocess both type and props
+	// If type is custom, process both type and props
 	if (Object.keys(customComponentsFixedProps).includes(typeArg)) {
 		type = convertCustomType(typeArg);
-		// TESTING
-		console.log(`Converting custom props for ${typeArg}`);
-		props = convertCustomProps(typeArg, propArgs);
-		console.log(props);
-	} else {
+		if (typeof propArgs === 'object') {
+			props = convertCustomProps(typeArg, propArgs);
+		}
+	} 
+	// Otherwise, assign type and props of standard elements
+	else {
 		type = typeArg;
+		if (typeof propArgs === 'object') {
+			props = {
+				...propArgs
+			}
+		}
 	}
-
-	// If propArgs are an object, assign them to props
-	if (typeof propArgs === 'object') {
-		props = {
-			...props,
-			...propArgs,
-		};
-	}
-
-	// TODO: Determine how to handle custom props
 
 	// If children args are present...
 	if (childrenArgs.length > 0) {
 		// Flatten any arrays created by JSX interpolation, then set children to output
 		children = flattenArrays(childrenArgs);
 	}
-
-	// TESTING
-	console.log(props);
-	console.log(children);
 
 	return {
 		type,

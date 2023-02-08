@@ -20,8 +20,18 @@ const content = (
 			<li>List item 2</li>
 			<li>List item 3</li>
 		</ul>
-		<grid>Grid value</grid>
-		<flex style={{flexDirection: 'column'}}>
+		<grid rows='1fr 1fr 1fr' cols='1fr 1fr 1fr' id="testGrid">
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+			<div>Item1</div>
+		</grid>
+		<flex dir="column">
 			<p>Flex item 1</p>
 			<p>Flex item 2</p>
 		</flex>
