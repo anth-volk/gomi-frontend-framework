@@ -21,7 +21,10 @@ const content = (
 			<li>List item 3</li>
 		</ul>
 		<grid>Grid value</grid>
-		<flex>Flex value</flex>
+		<flex style={{flexDirection: 'column'}}>
+			<p>Flex item 1</p>
+			<p>Flex item 2</p>
+		</flex>
 		<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
 			<div>Col1</div>
 			<div>Col2</div>

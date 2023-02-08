@@ -1,14 +1,45 @@
-import { customComponents } from './customComponents.js';
+import { customComponentsFixedProps } from './customComponents.js';
 import { flattenArrays } from './utils/utils.js';
 // TODO: add customProps, as well
 
 /**
- * Returns VDOM node type that corresponds with custom declaration in customComponents obj
+ * Returns VDOM node type that corresponds with custom declaration in customComponentsFixedProps obj
  * @param {string} typeArg
  * @returns {string}
  */
 export function convertCustomType(typeArg) {
-	return customComponents[typeArg].type;
+	return customComponentsFixedProps[typeArg].type;
+}
+
+/**
+ * Returns props object with standard HTML props when passed object that contains custom props
+ * @param {string} typeArg
+ * @param {Object} propArgs
+ * @returns {Object}
+ */
+export function convertCustomProps(typeArg, propArgs) {
+	let props = {};
+
+	// First, assign props listed in customComponentsFixedProps to 
+	// props obj, as these are fixed for all custom components of that type
+	props = {
+		...customComponentsFixedProps[typeArg].props
+	};
+
+	// TESTING
+	console.log(props);
+
+	// Map over array of prop keys
+	// TESTING - TODO: Add variable props afterwards
+	/*
+	Object.keys(propArgs)
+		.forEach((key) => {
+			// If key is in customComponentsFixedProps, then 
+		})
+	*/
+
+	return props;
+
 }
 
 /**
@@ -44,12 +75,16 @@ export function createElem(typeArg, propArgs, ...childrenArgs) {
 	console.log(...childrenArgs);
 
 	let type = null;
-	let props = null;
+	let props = {};
 	let children = null;
 
-	// If type is custom, convert to standard DOM node using customComponents obj array
-	if (Object.keys(customComponents).includes(typeArg)) {
+	// If type is custom, preprocess both type and props
+	if (Object.keys(customComponentsFixedProps).includes(typeArg)) {
 		type = convertCustomType(typeArg);
+		// TESTING
+		console.log(`Converting custom props for ${typeArg}`);
+		props = convertCustomProps(typeArg, propArgs);
+		console.log(props);
 	} else {
 		type = typeArg;
 	}
@@ -57,6 +92,7 @@ export function createElem(typeArg, propArgs, ...childrenArgs) {
 	// If propArgs are an object, assign them to props
 	if (typeof propArgs === 'object') {
 		props = {
+			...props,
 			...propArgs,
 		};
 	}
