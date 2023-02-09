@@ -1,5 +1,5 @@
-/** @jsx createElem */
-import { render, createElem } from './domManipulation.js';
+/** @jsx createNode */
+import { render, createNode } from './domManipulation.js';
 
 const testArr = [
 	'value1',
@@ -12,38 +12,25 @@ const testJSX = testArr.map((item) =>
 );
 
 const content = (
-	<div id="testing">
-		<h1 className="big">Welcome</h1>
-		<p>Welcome to this example webpage! This is meant to illustrate the Gomi framework.</p>
-		<ul>
-			<li>List item 1</li>
-			<li>List item 2</li>
-			<li>List item 3</li>
-		</ul>
-		<grid rows='1fr 1fr 1fr' cols='1fr 1fr 1fr' id="testGrid">
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-			<div>Item1</div>
-		</grid>
-		<flex dir="column">
-			<p>Flex item 1</p>
-			<p>Flex item 2</p>
-		</flex>
-		<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
-			<div>Col1</div>
-			<div>Col2</div>
-		</div>
-		<ul>
-			{testJSX}
-		</ul>
-	</div>
+	<ul id="testUpdateElem">
+		<li>Item 1</li>
+		<li>Item 2</li>
+		<li>Item 3</li>
+	</ul>
 );
 
+const updateContentOne = (
+	<ul id="testUpdateElem">
+		<li>Item 1</li>
+		<li>Item 2</li>
+		<li>Item 3</li>
+		<li>Item 4</li>
+	</ul>
+);
 
-render(content, document.getElementById('root'));
+const root = document.getElementById('root');
+render(root, content);
+
+const updateButton = document.getElementById('testUpdateButton');
+
+updateButton.addEventListener('click', () => render(root, content, updateContentOne));
