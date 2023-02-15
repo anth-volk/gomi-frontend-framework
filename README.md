@@ -49,6 +49,7 @@ Many of its properties are shared with the `<grid>` element above. Here is a ful
 ## Feature roadmap
 Down the road, I'm hoping to add the following features:
 * A virtual DOM that allows faster, less resource-intensive re-rendering
+* Handling for nested components
 * (Potentially) A React-like unit-of-work system to further optimize re-rendering
 * Stateness and state variables
 * Better-defined custom components, such as buttons and div elements, that draw their color from a programmatically defined color scheme akin to the new system employed by Material UI 3 on Android phones
