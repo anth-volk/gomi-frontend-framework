@@ -3,9 +3,9 @@ import { convertCustomProps, convertCustomType } from './customComponents/handle
 import { flattenArrays } from './utils/utils.js';
 
 /**
- * Reference to rendered HTML DOM tree that will be updated each time page is re-rendered
+ * Reference to the virtual DOM equivalent of the current page
  */
-let $currentPageRef = null;
+let currentPageVDOM = null;
 
 /**
  * Iterates through a new HTML element's props and recursively assigns them to element
@@ -112,12 +112,19 @@ export function diffNodes(newNode, oldNode) {
 /**
  * Render a Gomi component
  * @param {HTMLElement} $rootElem 
- * @param {JSX.Element} component 
+ * @param {JSX.Element} newNode
  */
-export function render($rootElem, component) {
-	$currentPageRef = updateDOM($rootElem, component)
+export function render($rootElem, componentTopNode) {
+	// Create new element
+	let $newElem = createElem(componentTopNode);
+	$rootElem.append($newElem);
+
+	// Store reference to componentTopNode in currentPageVDOM
+	currentPageVDOM = componentTopNode;
+
 }
 
+// Note: updateDOM is to be substantially rewritten
 /**
  * Recursively renders VDOM tree from elements and their children;
  * the initial code for this function is based heavily on the article at 
