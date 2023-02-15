@@ -152,37 +152,3 @@ export function render($containerElem, newNode, oldNode, index = 0) {
 	}
 		
 }
-
-	// else if type is different or props are different, then update (children will be walked recursively)
-
-	/* TESTING
-	// Recursively call render for children
-	for (let i = 0; i < newNode.children.length || i < oldNode.children.length; i++) {
-		render(
-			$containerElem.childNodes[i],
-			newNode.children[i],
-			oldNode.children[i]
-		);
-	}
-	*/
-
-	/*
-	if (newNode && newNode.children) {
-		newNode.children.forEach((child) => (typeof child !== 'object'
-			? $newElem.append(document.createTextNode(child))
-			: render($newElem, child, )
-			
-			))
-	}
-	*/
-
-	/* TESTING
-	// Append new element to container
-	if ($newElem) {
-		$containerElem.appendChild($newElem);
-	}
-	*/
-
-
-
-
