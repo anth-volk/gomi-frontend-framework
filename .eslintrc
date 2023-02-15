@@ -1,0 +1,19 @@
+{
+    "parser": "@babel/eslint-parser",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": "airbnb",
+    "rules": {
+        "quotes": [2, "single"],
+        "indent": [2, "tab"],
+        "no-tabs": 0,
+		"import/extensions": 0,
+		"react/jsx-indent": [2, "tab"]
+    },
+    "ignorePatterns": [
+		"node_modules", 
+		"**/bundle.js"
+	]
+}
