@@ -3,6 +3,11 @@ import { convertCustomProps, convertCustomType } from './customComponents/handle
 import { flattenArrays } from './utils/utils.js';
 
 /**
+ * Reference to rendered HTML DOM tree that will be updated each time page is re-rendered
+ */
+let $currentPageRef = null;
+
+/**
  * Iterates through a new HTML element's props and recursively assigns them to element
  * @param {HTMLElement} $newElem
  * @param {object} elemProps
@@ -105,6 +110,15 @@ export function diffNodes(newNode, oldNode) {
 }
 
 /**
+ * Render a Gomi component
+ * @param {HTMLElement} $rootElem 
+ * @param {JSX.Element} component 
+ */
+export function render($rootElem, component) {
+	$currentPageRef = updateDOM($rootElem, component)
+}
+
+/**
  * Recursively renders VDOM tree from elements and their children;
  * the initial code for this function is based heavily on the article at 
  * https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060
@@ -114,7 +128,7 @@ export function diffNodes(newNode, oldNode) {
  * @param {JSX.Element} [oldNode] Existing JSX element, against which newElem will be compared when updating DOM
  * @param {number} [index] Element index, which will be used in removing nodes
  */
-export function render($containerElem, newNode, oldNode, index = 0) {
+export function updateDOM($containerElem, newNode, oldNode, index = 0) {
 
 	// Check if container set to document.body, and if so, display console error
 	if ($containerElem === document.body) {
@@ -150,5 +164,7 @@ export function render($containerElem, newNode, oldNode, index = 0) {
 			render($containerElem.childNodes[index], newNode.children[i], oldNode.children[i]);
 		};
 	}
+
+	return $containerElem;
 		
 }
