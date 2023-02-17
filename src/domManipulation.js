@@ -5,7 +5,7 @@ import { flattenArrays } from './utils/utils.js';
 /**
  * Reference to the virtual DOM equivalent of the current page
  */
-let currentPageVDOM = null;
+export let currentPageVDOMTopNode = null;
 
 /**
  * Iterates through a new HTML element's props and recursively assigns them to element
@@ -98,80 +98,24 @@ export function createElem(node) {
 }
 
 /**
- * Compares two nodes and returns whether or not they are different
- * @param {JSX.Element} newNode New node being added using render()
- * @param {JSX.Element} oldNode Existing node that is being compared
- * @returns {boolean}
- */
-export function diffNodes(newNode, oldNode) {
-	return typeof oldNode !== typeof newNode ||
-		typeof oldNode === 'string' && newNode !== oldNode ||
-		newNode.type !== oldNode.type;
-}
-
-/**
- * Render a Gomi component
+ * Render a new Gomi component
  * @param {HTMLElement} $rootElem 
  * @param {JSX.Element} newNode
  */
 export function render($rootElem, componentTopNode) {
-	// Create new element
-	let $newElem = createElem(componentTopNode);
-	$rootElem.append($newElem);
-
-	// Store reference to componentTopNode in currentPageVDOM
-	currentPageVDOM = componentTopNode;
-
-}
-
-// Note: updateDOM is to be substantially rewritten
-/**
- * Recursively renders VDOM tree from elements and their children;
- * the initial code for this function is based heavily on the article at 
- * https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060
- * and is meant as a learning exercise
- * @param {HTMLElement} $containerElem DOM element that JSX element will be appended to
- * @param {JSX.Element} newNode JSX element to be created and appended to DOM
- * @param {JSX.Element} [oldNode] Existing JSX element, against which newElem will be compared when updating DOM
- * @param {number} [index] Element index, which will be used in removing nodes
- */
-export function updateDOM($containerElem, newNode, oldNode, index = 0) {
-
+	
 	// Check if container set to document.body, and if so, display console error
-	if ($containerElem === document.body) {
+	if ($rootElem === document.body) {
 		console.error('It is recommended to '
 			+ 'create a separate container within document.body to '
 			+ 'hold the application');
 	}
 
-	let $newElem = null;
+	// Create new element
+	let $newElem = createElem(componentTopNode);
+	$rootElem.append($newElem);
 
-	// If no oldNode, then:
-	if (!oldNode) {
+	// Store reference to componentTopNode in currentPageVDOM
+	currentPageVDOMTopNode = componentTopNode;
 
-		// Create new element
-		$newElem = createElem(newNode);
-		$containerElem.append($newElem);
-
-	} 
-	else if (!newNode) {
-
-		// Delete child of parent that corresponds with old node
-		$containerElem.removeChild($containerElem.childNodes[index]);
-
-	}
-	else if (diffNodes(newNode, oldNode)) {
-
-		$containerElem.replaceChild(createElem(newNode), $containerElem.childNodes[index]);
-	}
-	else if (typeof newNode === 'object') {
-
-		for (let i = 0; i < newNode.children.length || i < oldNode.children.length; i++) {
-
-			render($containerElem.childNodes[index], newNode.children[i], oldNode.children[i]);
-		};
-	}
-
-	return $containerElem;
-		
 }

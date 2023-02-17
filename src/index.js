@@ -1,5 +1,6 @@
 /** @jsx createNode */
 import { render, createNode } from './domManipulation.js';
+import { updateView } from './domUpdating.js';
 
 const testArr = [
 	'value1',
@@ -12,7 +13,7 @@ const testJSX = testArr.map((item) =>
 );
 
 const content = (
-	<div>
+	<div id="oldOuterContainer">
 		<ul id="testUpdateElem">
 			<li>Item 1</li>
 			<li>Item 2</li>
@@ -37,9 +38,25 @@ const updateContentOne = (
 	</div>
 );
 
+const updateContentTwo = (
+	<div>
+		<ul id="testUpdateElem">
+			<li>Item 1</li>
+			<li>Item 2</li>
+		</ul>
+		<grid cols="repeat(3, 1fr)">
+			<div>Text 1</div>
+			<div>Text 1</div>
+			<div>Text 1</div>
+		</grid>
+	</div>
+)
+
 const root = document.getElementById('root');
-render(root, content);
+render(root, updateContentOne);
 
-const updateButton = document.getElementById('testUpdateButton');
+const updateButton1 = document.getElementById('testUpdateButton1');
+const updateButton2 = document.getElementById('testUpdateButton2');
 
-updateButton.addEventListener('click', () => render(root, updateContentOne, content));
+updateButton1.addEventListener('click', () => updateView(root, updateContentOne, content));
+updateButton2.addEventListener('click', () => updateView(root, updateContentTwo, updateContentOne));
